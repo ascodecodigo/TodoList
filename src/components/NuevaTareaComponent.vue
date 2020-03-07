@@ -5,10 +5,10 @@
       placeholder="Escribe una nueva tarea"
       v-model="nuevaTarea"
       class="form-control"
-      @keyup.enter="agregarTarea()"
+      v-on:keyup.enter="agregarTarea()"
     />
     <span class="input-group-btn">
-      <button type="button" @click="agregarTarea()" class="btn btn-primary">
+      <button type="button" v-on:click="agregarTarea()" class="btn btn-primary">
         Agregar
       </button>
     </span>
@@ -16,19 +16,14 @@
 </template>
 
 <script>
-import { bus } from "../main.js";
+// import { bus } from "../main.js";
 export default {
   data() {
     return {
       nuevaTarea: ""
     };
   },
-  props: {
-    tareas: {
-      type: Array,
-      default: () => []
-    }
-  },
+  props: ['tareas'],
   methods: {
     agregarTarea() {
       var texto = this.nuevaTarea.trim();
@@ -37,13 +32,13 @@ export default {
           texto: texto,
           terminada: false
         });
-        bus.actualizarContador(this.tareas.length);
+        // bus.actualizarContador(this.tareas.length);
       }
       this.nuevaTarea = "";
     }
   },
   created() {
-    bus.actualizarContador(this.tareas.length);
+    // bus.actualizarContador(this.tareas.length);
   }
 };
 </script>

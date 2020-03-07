@@ -3,7 +3,6 @@
     <li
       v-for="(tarea, indice) of tareas"
       class="list-group-item"
-      :key="indice"
       v-bind:class="{ terminada: tarea.terminada }"
     >
       {{ tarea.texto }}
@@ -11,27 +10,42 @@
         <button
           type="button"
           class="btn btn-success btn-sm"
-          @click="tarea.terminada = !tarea.terminada"
-        ><i class="fa fa-check"></i></button>
+          v-on:click="terminada(tarea)"
+        >
+          <i class="fa fa-check"></i>
+        </button>
         &nbsp;
         <button
           type="button"
           class="btn btn-danger btn-sm"
-          @click="borrar(indice)"
-        ><i class="fa fa-times"></i></button>
+          v-on:click="borrar(indice)"
+        >
+          <i class="fa fa-times"></i>
+        </button>
       </span>
     </li>
   </ul>
 </template>
 
 <script>
-import { bus } from "../main.js";
+// import { bus } from "../main.js";
+import { mapState } from 'vuex'
 export default {
-  props: ["tareas"],
+  // props: ["tareas"],
+  computed: {
+    // tareas() {
+    //   return this.$store.state.tareas
+    // }
+    ...mapState(['tareas'])
+  },
   methods: {
     borrar: function(indice) {
       this.tareas.splice(indice, 1);
-      bus.actualizarContador(this.tareas.length);
+      // bus.actualizarContador(this.tareas.length);
+    },
+    terminada(tarea) {
+      tarea.terminada = !tarea.terminada
+      // bus.actualizarContador(--this.tareas.length);
     }
   }
 };
